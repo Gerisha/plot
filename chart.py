@@ -1,27 +1,26 @@
 import pandas as pd
-import plotly.express as px
-import csv
+import matplotlib.pyplot as plt
 
-rows=[]
-with open('final.csv', 'r') as f:
-    csv_r = csv.reader(f)
-    for star in csv_r:
-        rows.append(star)
+df = pd.read_csv("final.csv")
 
-headers = rows[0]
-star_data = rows[1:]
+mass = df["Mass"].to_list()
+radius = df["Radius"].to_list()
+dist = df["Distance"].to_list()
+gravity = df["Gravity"].to_list()
 
-star_masses = []
-star_radiuses = []
-star_gravities = []
+mass.sort()
+radius.sort()
+gravity.sort()
 
-for star in star_data:
-    if star[3] == '?' or star[4] == '?' or star[5] == '?':
-        star_data.remove(star)
-    else:
-        star_masses.append(float(star[3]))
-        star_radiuses.append(float(star[4]))
-        star_gravities.append(float(star[5]))
+plt.plot(radius,mass)
+plt.scatter(radius,mass)
+plt.xlabel("Radius")
+plt.ylabel("Mass")
+plt.show()
 
-fig = px.scatter(x=star_masses, y=star_radiuses, size=star_gravities, range_y=(-2e+8,3e+9), range_x=(-1e+31,2.1e+32), labels=dict(x='Mass of Star', y='Radius of Star'))
-fig.show()
+
+plt.plot(mass,gravity)
+plt.scatter(mass,gravity)
+plt.xlabel("Mass")
+plt.ylabel("Gravity")
+plt.show()
